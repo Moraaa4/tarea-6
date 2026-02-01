@@ -1,4 +1,4 @@
-# Tarea 6: Dashboard de Reportes SQL con Next.js y Docker
+# Tarea 6
 
 Este proyecto despliega una aplicación web que consume vistas dinámicas de una base de datos PostgreSQL, optimizada mediante índices y roles de seguridad.
 
