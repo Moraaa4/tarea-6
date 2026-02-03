@@ -9,17 +9,20 @@ export default async function ReportPage({
   const { id } = await params;
 
   const viewMap: { [key: string]: string } = {
-  "1": "view_ventas_categoria",
-  "2": "view_ranking_clientes",
-  "3": "view_stock_alerta",
-  "4": "view_ventas_mensuales",
-  "5": "view_monitor_estatus"
-};
+    "1": "view_ventas_categoria",
+    "2": "view_ranking_clientes",
+    "3": "view_stock_alerta",
+    "4": "view_ventas_mensuales",
+    "5": "view_monitor_estatus"
+  };
 
   const viewName = viewMap[id];
   
-  if (!viewName) return <div className="p-20 text-center font-bold">Reporte no válido.</div>;
+  if (!viewName) {
+    return <div className="p-20 text-center font-bold">Reporte no válido.</div>;
+  }
 
+  // viewName está validado contra la whitelist, es seguro usarlo en la query
   const result = await query(`SELECT * FROM ${viewName} LIMIT 20`);
   const rows = result.rows;
   const columns = rows.length > 0 ? Object.keys(rows[0]) : [];
