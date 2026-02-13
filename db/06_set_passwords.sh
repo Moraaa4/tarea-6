@@ -10,7 +10,7 @@ done
 
 echo "Estableciendo contraseña para app_user..."
 
-# Ejecutar comando SQL para establecer la contraseña
+# Eestablecer la contraseña
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     ALTER ROLE app_user WITH PASSWORD '$WEB_USER_PASSWORD';
 EOSQL
