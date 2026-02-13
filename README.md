@@ -36,16 +36,16 @@ Luego edita el archivo `.env` y completa **todos** los valores necesarios:
 
 ```env
 # PostgreSQL Admin User Configuration
-POSTGRES_USER=your_postgres_admin
+POSTGRES_USER=admin_user
 POSTGRES_PASSWORD=your_secure_password
-POSTGRES_DB=your_database_name
+POSTGRES_DB=tienda_db
 
 # Web Application Database User Password
 WEB_USER_PASSWORD=your_web_user_password
 
 # Application Connection String
-# El formato debe ser: postgres://web_dashboard_user:password@db:5432/database_name
-DATABASE_URL=postgres://web_dashboard_user:your_web_user_password@db:5432/your_database_name
+# El formato debe ser: postgres://app_user:password@db:5432/database_name
+DATABASE_URL=postgres://app_user:your_web_user_password@db:5432/tienda_db
 
 ### 3. Ejecutar el proyecto
 
@@ -120,7 +120,7 @@ El sistema incluye **5 reportes dinámicos** que consumen vistas optimizadas de 
 ### Medidas Implementadas
 
 - ✅ **Variables de entorno**: Todas las credenciales están externalizadas en `.env`
-- ✅ **Roles de PostgreSQL**: Usuario `web_dashboard_user` con permisos **solo de lectura** (SELECT)
+- ✅ **Roles de PostgreSQL**: Usuario `app_user` con permisos **solo de lectura** (SELECT)
 - ✅ **Contraseñas seguras**: Establecidas mediante scripts que leen variables de entorno
 - ✅ **Usuario sin privilegios**: La aplicación Docker corre como usuario `nextjs` (NO root)
 - ✅ **Puerto restringido**: PostgreSQL solo accesible desde `127.0.0.1` (localhost)
@@ -132,8 +132,8 @@ El sistema incluye **5 reportes dinámicos** que consumen vistas optimizadas de 
 
 | Rol | Permisos | Propósito |
 |-----|----------|-----------|
-| `POSTGRES_USER` | Admin completo | Administración de la base de datos |
-| `web_dashboard_user` | SELECT only | Usuario de la aplicación web (solo lectura) |
+| `admin_user` | Admin completo | Administración de la base de datos |
+| `app_user` | SELECT only | Usuario de la aplicación web (solo lectura) |
 
 ## 🐳 Servicios Docker
 
@@ -217,7 +217,7 @@ docker-compose exec db psql -U admin_user -d tienda_db -c "\du"
 ## 📝 Notas Adicionales
 
 - 🔄 **Reinicialización de datos**: Los datos se recrean automáticamente desde `02_seed.sql` al eliminar volúmenes
-- 🔐 **Primera ejecución**: El script `06_set_passwords.sh` establece la contraseña del usuario `web_dashboard_user`
+- 🔐 **Primera ejecución**: El script `06_set_passwords.sh` establece la contraseña del usuario `app_user`
 - 📦 **Producción**: El Dockerfile usa `output: 'standalone'` para generar un bundle optimizado
 - 🚀 **Rendimiento**: Los índices en `04_indexes.sql` optimizan las consultas de las vistas
 
