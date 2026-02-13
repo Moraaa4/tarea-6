@@ -8,9 +8,10 @@ CREATE OR REPLACE VIEW view_ventas_categoria AS
 SELECT 
     c.nombre AS nombre_categoria,
     COUNT(od.id) AS cantidad_productos_vendidos,
-    SUM(od.subtotal) AS ingresos_totales,
+    -- Requisito COALESCE para manejar valores nulos
+    COALESCE(SUM(od.subtotal), 0) AS ingresos_totales,
     -- Campo calculado: % de contribución sobre una meta de 5000
-    ROUND((SUM(od.subtotal) / 5000.0) * 100, 2) AS porcentaje_meta
+    ROUND((COALESCE(SUM(od.subtotal), 0) / 5000.0) * 100, 2) AS porcentaje_meta
 FROM categorias c
 JOIN productos p ON c.id = p.categoria_id
 JOIN orden_detalles od ON p.id = od.producto_id
